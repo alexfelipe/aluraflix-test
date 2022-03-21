@@ -1,5 +1,6 @@
 package br.com.alexf.aluraflix.model
 
-class Video(
-    val id: String
+data class Video(
+    val id: String,
+    val categoria: String
 )

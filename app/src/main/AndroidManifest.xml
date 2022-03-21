@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Aluraflix">
         <activity
+            android:name=".ui.activity.FormVideoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.ListaVideosActivity"
             android:exported="true">
             <intent-filter>

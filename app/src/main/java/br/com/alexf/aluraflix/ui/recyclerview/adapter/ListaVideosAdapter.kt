@@ -2,9 +2,12 @@ package br.com.alexf.aluraflix.ui.recyclerview.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.databinding.VideoItemBinding
+import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
 import br.com.alexf.aluraflix.model.Video
 import coil.load
 
@@ -22,7 +25,7 @@ class ListaVideosAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        var videoId: String? = null
+        private var videoId: String? = null
 
         init {
             binding.card.setOnClickListener {
@@ -34,11 +37,13 @@ class ListaVideosAdapter(
 
         fun vincula(video: Video) {
             videoId = video.id
-            binding.videoItemThumbnail.load("https://img.youtube.com/vi/${video.id}/0.jpg")
-        }
-
-        private fun abreVideo() {
-
+            binding.videoItemThumbnail.carregaImagemDoYoutube(video.id)
+            binding.videoItemCategoria.text = video.categoria
+            if (video.categoria.isBlank()) {
+                binding.videoItemCategoria.visibility = GONE
+            } else {
+                binding.videoItemCategoria.visibility = VISIBLE
+            }
         }
 
     }

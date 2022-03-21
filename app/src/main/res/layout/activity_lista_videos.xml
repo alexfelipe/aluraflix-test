@@ -17,4 +17,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/video_item" />
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/activity_lista_videos_fab_adiciona_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Novo vídeo"
+        app:icon="@drawable/ic_action_adicionar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

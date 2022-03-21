@@ -10,6 +10,8 @@ import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
 import br.com.alexf.aluraflix.model.Categoria
 import br.com.alexf.aluraflix.model.Video
 import coil.load
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class FormVideoActivity : AppCompatActivity() {
 
@@ -36,7 +38,7 @@ class FormVideoActivity : AppCompatActivity() {
                 categorias
             )
         )
-        campoCategorias.setOnFocusChangeListener { view, b ->
+        campoCategorias.setOnFocusChangeListener { _, _ ->
             val id = binding.activityFormVideoId.editText?.text.toString()
                 .removePrefix("https://www.youtube.com/watch?v=")
             Log.i("FormVideoActivity", "onCreate: $id")
@@ -52,8 +54,11 @@ class FormVideoActivity : AppCompatActivity() {
                 it.texto == value
             }
             val video = Video(id, categoria)
-            dao.salva(video)
-            finish()
+            MainScope().launch {
+                dao.salva(video)
+                finish()
+            }
+
         }
     }
 }

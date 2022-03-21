@@ -5,19 +5,23 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.ConcatAdapter
 import br.com.alexf.aluraflix.dao.VideoDao
 import br.com.alexf.aluraflix.databinding.ActivityListaVideosBinding
 import br.com.alexf.aluraflix.model.Categoria
 import br.com.alexf.aluraflix.model.Video
+import br.com.alexf.aluraflix.ui.recyclerview.adapter.CabecalhoAdapter
 import br.com.alexf.aluraflix.ui.recyclerview.adapter.ListaVideosAdapter
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class ListaVideosActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityListaVideosBinding.inflate(layoutInflater)
-    }
-    private val adapter by lazy {
-        ListaVideosAdapter(this)
     }
     private val dao by lazy {
         VideoDao()
@@ -26,8 +30,12 @@ class ListaVideosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        configuraRecyclerView()
         configuraFab()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        configuraRecyclerView()
     }
 
     private fun configuraFab() {
@@ -41,16 +49,21 @@ class ListaVideosActivity : AppCompatActivity() {
     }
 
     private fun configuraRecyclerView() {
+        val videos = dao.buscaTodos
+        val videosPorCategoria =
+            videos.groupBy { it.categoria }
+                .mapValues {
+                    ListaVideosAdapter(
+                        this@ListaVideosActivity,
+                        it.key,
+                        it.value
+                    )
+                }
+        val adapter = ConcatAdapter(
+            CabecalhoAdapter(this@ListaVideosActivity),
+            *videosPorCategoria.values.toTypedArray()
+        )
         binding.activityListaVideosRecyclerview.adapter = adapter
-        adapter.onVideoClick = { id ->
-            abreVideo(id)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val videos = dao.buscaTodos()
-        adapter.atualiza(videos)
     }
 
     private fun abreVideo(videoId: String) {

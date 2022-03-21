@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import br.com.alexf.aluraflix.dao.VideoDao
 import br.com.alexf.aluraflix.databinding.ActivityListaVideosBinding
+import br.com.alexf.aluraflix.model.Categoria
+import br.com.alexf.aluraflix.model.Video
 import br.com.alexf.aluraflix.ui.recyclerview.adapter.ListaVideosAdapter
 
 class ListaVideosActivity : AppCompatActivity() {
@@ -24,32 +26,30 @@ class ListaVideosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        configuraRecyclerView()
+        configuraFab()
+    }
+
+    private fun configuraFab() {
+        binding.activityListaVideosFabAdicionaVideo
+            .setOnClickListener {
+                Intent(this, FormVideoActivity::class.java)
+                    .also {
+                        startActivity(it)
+                    }
+            }
+    }
+
+    private fun configuraRecyclerView() {
         binding.activityListaVideosRecyclerview.adapter = adapter
-//        adapter.atualiza(
-//            listOf(
-//                Video("pcnfjJG3jY4"),
-//                Video("fmu1LQvZhms"),
-//                Video("GUanHEGlje4"),
-//                Video("HAdt523prB8"),
-//                Video("fiPfvylj6rk"),
-//                Video("_Mx64Rkv92c"),
-//            )
-//        )
         adapter.onVideoClick = { id ->
             abreVideo(id)
-        }
-        binding.activityListaVideosFabAdicionaVideo.setOnClickListener {
-            Intent(this, FormVideoActivity::class.java)
-                .also {
-                    startActivity(it)
-                }
         }
     }
 
     override fun onResume() {
         super.onResume()
         val videos = dao.buscaTodos()
-        Log.i("ListaVideosActivity", "onResume: $videos")
         adapter.atualiza(videos)
     }
 
@@ -57,10 +57,9 @@ class ListaVideosActivity : AppCompatActivity() {
         Intent(
             Intent.ACTION_VIEW,
             Uri.parse("https://www.youtube.com/watch?v=$videoId")
-        )
-            .also {
-                startActivity(it)
-            }
+        ).also {
+            startActivity(it)
+        }
     }
 
 }

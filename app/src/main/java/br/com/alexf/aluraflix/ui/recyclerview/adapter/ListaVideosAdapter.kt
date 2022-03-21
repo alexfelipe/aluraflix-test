@@ -1,29 +1,28 @@
 package br.com.alexf.aluraflix.ui.recyclerview.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.databinding.VideoItemBinding
 import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
 import br.com.alexf.aluraflix.model.Video
-import coil.load
 
 class ListaVideosAdapter(
     private val context: Context,
     videos: List<Video> = emptyList(),
     var onVideoClick: (id: String) -> Unit = {}
-) :
-    RecyclerView.Adapter<ListaVideosAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ListaVideosAdapter.ViewHolder>() {
 
     private val videos = videos.toMutableList()
 
     inner class ViewHolder(
         private val binding: VideoItemBinding
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private var videoId: String? = null
 
@@ -38,11 +37,24 @@ class ListaVideosAdapter(
         fun vincula(video: Video) {
             videoId = video.id
             binding.videoItemThumbnail.carregaImagemDoYoutube(video.id)
-            binding.videoItemCategoria.text = video.categoria
-            if (video.categoria.isBlank()) {
-                binding.videoItemCategoria.visibility = GONE
+            val campoCategoria = binding.videoItemCategoria
+
+            val textoCategoria = video.categoria.texto
+            video.categoria.corText?.let {
+                campoCategoria
+                    .setTextColor(ContextCompat.getColor(context, it))
+            }
+            video.categoria.corFundo?.let {
+                campoCategoria.background
+                    .setTint(ContextCompat.getColor(context, it))
+            }
+
+            campoCategoria.text = textoCategoria
+
+            if (textoCategoria != null && textoCategoria.isBlank()) {
+                campoCategoria.visibility = GONE
             } else {
-                binding.videoItemCategoria.visibility = VISIBLE
+                campoCategoria.visibility = VISIBLE
             }
         }
 

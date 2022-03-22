@@ -55,8 +55,7 @@ class CabecalhoAdapter(
 
     override fun getItemCount() = 1
 
-    override fun getItemViewType(position: Int): Int {
-        return R.layout.cabecalho
-    }
+    override fun getItemViewType(position: Int): Int =
+        R.layout.cabecalho
 
 }

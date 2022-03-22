@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.VideoItemBinding
 import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
-import br.com.alexf.aluraflix.model.Video
+import br.com.alexf.aluraflix.ui.model.Video
 
-class ListVideosHorizontal(
+class ListaVideosHorizontalAdapter(
     private val context: Context,
     videos: List<Video>,
     var videoClicado: (videoId: String) -> Unit
-) : RecyclerView.Adapter<ListVideosHorizontal.ViewHolder>() {
+) : RecyclerView.Adapter<ListaVideosHorizontalAdapter.ViewHolder>() {
 
     private val videos = videos.toMutableList()
 
@@ -32,7 +32,8 @@ class ListVideosHorizontal(
 
         fun vincula(video: Video) {
             videoId = video.id
-            binding.videoItemThumbnail.carregaImagemDoYoutube(video.id)
+            binding.videoItemImagem
+                .carregaImagemDoYoutube(video.id)
         }
 
     }
@@ -60,8 +61,7 @@ class ListVideosHorizontal(
 
     override fun getItemCount(): Int = videos.size
 
-    override fun getItemViewType(position: Int): Int {
-        return R.layout.video_item
-    }
+    override fun getItemViewType(position: Int): Int =
+        R.layout.video_item
 
 }

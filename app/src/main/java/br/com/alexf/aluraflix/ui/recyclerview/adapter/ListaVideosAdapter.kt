@@ -7,12 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.VideosPorCategoriaBinding
-import br.com.alexf.aluraflix.model.Categoria
-import br.com.alexf.aluraflix.model.Video
+import br.com.alexf.aluraflix.ui.model.Categoria
+import br.com.alexf.aluraflix.ui.model.Video
 
 class ListaVideosAdapter(
     private val context: Context,
-    private val categoria: Categoria = Categoria.SEM_CATEGORIA,
+    private val categoria: Categoria,
     videos: List<Video> = emptyList(),
     var videoClicado: (videoId: String) -> Unit = {}
 ) : RecyclerView.Adapter<ListaVideosAdapter.ViewHolder>() {
@@ -24,21 +24,32 @@ class ListaVideosAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun vincula(videos: List<Video>) {
-            val campoTituloCategoria = binding.categoriaVideoTitulo
+            configuraCampoCategoria()
+            configuraListaVideosAdapter(videos)
+        }
 
-            campoTituloCategoria.text = categoria.texto
-
-            categoria.corText?.let {
-                campoTituloCategoria.setTextColor(ContextCompat.getColor(context, it))
-            }
-            categoria.corFundo?.let {
-                campoTituloCategoria.background.setTint(ContextCompat.getColor(context, it))
-            }
-
-            binding.videos.adapter = ListVideosHorizontal(
+        private fun configuraListaVideosAdapter(videos: List<Video>) {
+            binding.videos.adapter = ListaVideosHorizontalAdapter(
                 context,
                 videos,
                 videoClicado
+            )
+        }
+
+        private fun configuraCampoCategoria() {
+            val campoTituloCategoria = binding.categoriaVideoTitulo
+            campoTituloCategoria.text = categoria.texto
+            campoTituloCategoria.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    categoria.corTexto
+                )
+            )
+            campoTituloCategoria.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    categoria.corFundo
+                )
             )
         }
 
@@ -68,8 +79,7 @@ class ListaVideosAdapter(
 
     override fun getItemCount() = 1
 
-    override fun getItemViewType(position: Int): Int {
-        return R.layout.activity_lista_videos
-    }
+    override fun getItemViewType(position: Int): Int =
+        R.layout.activity_main
 
 }

@@ -15,7 +15,7 @@
             android:name=".ui.activity.FormVideoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ListaVideosActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

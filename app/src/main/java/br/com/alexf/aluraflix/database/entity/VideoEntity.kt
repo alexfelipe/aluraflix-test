@@ -2,7 +2,8 @@ package br.com.alexf.aluraflix.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.alexf.aluraflix.model.Categoria
+import br.com.alexf.aluraflix.ui.model.Categoria
+import br.com.alexf.aluraflix.ui.model.Video
 
 @Entity(tableName = "video")
 data class VideoEntity(
@@ -10,3 +11,10 @@ data class VideoEntity(
     val id: String,
     val categoria: Categoria
 )
+
+fun VideoEntity.paraVideo(): Video {
+    return Video(
+        this.id,
+        this.categoria
+    )
+}

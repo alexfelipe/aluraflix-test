@@ -1,13 +1,13 @@
-package br.com.alexf.aluraflix.model
+package br.com.alexf.aluraflix.ui.model
 
 import br.com.alexf.aluraflix.R
 
 enum class Categoria(
-    val texto: String? = null,
-    val corText: Int? = null,
-    val corFundo: Int? = null
+    val texto: String,
+    val corTexto: Int = R.color.black,
+    val corFundo: Int = R.color.white
 ) {
-    SEM_CATEGORIA,
+    SEM_CATEGORIA("Outros"),
     PROGRAMACAO(
         "Programação",
         R.color.black,

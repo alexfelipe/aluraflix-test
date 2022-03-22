@@ -4,8 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.CategoriaVideoBinding
-import br.com.alexf.aluraflix.model.Categoria
+import br.com.alexf.aluraflix.ui.model.Categoria
 
 class CategoriaHeaderAdapter(
     private val context: Context,
@@ -44,4 +45,7 @@ class CategoriaHeaderAdapter(
     }
 
     override fun getItemCount() = 1
+
+    override fun getItemViewType(position: Int): Int =
+        R.layout.categoria_video
 }

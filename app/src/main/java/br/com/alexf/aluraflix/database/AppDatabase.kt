@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import br.com.alexf.aluraflix.database.dao.VideoDao
 import br.com.alexf.aluraflix.database.entity.VideoEntity
 
+private const val NOME_BANCO_DE_DADOS = "aluraflix.db"
+
 @Database(
     version = 1,
     entities = [VideoEntity::class],
@@ -25,11 +27,10 @@ abstract class AppDatabase : RoomDatabase() {
             return db ?: Room.databaseBuilder(
                 context,
                 AppDatabase::class.java,
-                "aluraflix.db"
-            ).build()
-                .also { db = it }
+                NOME_BANCO_DE_DADOS
+            ).build().also { db = it }
         }
-        
+
     }
 
 }

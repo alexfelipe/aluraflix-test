@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.CategoriaVideoBinding
-import br.com.alexf.aluraflix.ui.model.Categoria
+import br.com.alexf.aluraflix.model.Categoria
 
 class CategoriaHeaderAdapter(
     private val context: Context,

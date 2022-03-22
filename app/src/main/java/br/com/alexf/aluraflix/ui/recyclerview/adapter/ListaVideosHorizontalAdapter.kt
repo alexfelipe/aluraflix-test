@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.VideoItemBinding
 import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
-import br.com.alexf.aluraflix.ui.model.Video
+import br.com.alexf.aluraflix.model.Video
 
 class ListaVideosHorizontalAdapter(
     private val context: Context,

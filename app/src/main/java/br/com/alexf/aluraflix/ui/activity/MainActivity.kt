@@ -9,7 +9,7 @@ import br.com.alexf.aluraflix.database.AppDatabase
 import br.com.alexf.aluraflix.database.entity.VideoEntity
 import br.com.alexf.aluraflix.database.entity.paraVideo
 import br.com.alexf.aluraflix.databinding.ActivityMainBinding
-import br.com.alexf.aluraflix.ui.model.Video
+import br.com.alexf.aluraflix.model.Video
 import br.com.alexf.aluraflix.ui.recyclerview.adapter.CabecalhoAdapter
 import br.com.alexf.aluraflix.ui.recyclerview.adapter.ListaVideosAdapter
 import kotlinx.coroutines.MainScope
@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     private val dao by lazy {
         AppDatabase.instancia(this).videoDao()
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             val categoria = it.key
             val videosDaCategoria = it.value
             ListaVideosAdapter(
-                this@MainActivity,
+                this,
                 categoria,
                 videosDaCategoria,
                 videoClicado = { videoId ->

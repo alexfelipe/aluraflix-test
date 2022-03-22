@@ -7,8 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.VideosPorCategoriaBinding
-import br.com.alexf.aluraflix.ui.model.Categoria
-import br.com.alexf.aluraflix.ui.model.Video
+import br.com.alexf.aluraflix.model.Categoria
+import br.com.alexf.aluraflix.model.Video
 
 class ListaVideosAdapter(
     private val context: Context,

@@ -1,4 +1,4 @@
-package br.com.alexf.aluraflix.ui.model
+package br.com.alexf.aluraflix.model
 
 import br.com.alexf.aluraflix.R
 

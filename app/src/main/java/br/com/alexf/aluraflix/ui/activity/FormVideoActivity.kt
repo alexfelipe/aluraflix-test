@@ -8,9 +8,9 @@ import br.com.alexf.aluraflix.database.AppDatabase
 import br.com.alexf.aluraflix.databinding.ActivityFormVideoBinding
 import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
 import br.com.alexf.aluraflix.extension.pegaVideoIdDoYoutube
-import br.com.alexf.aluraflix.ui.model.Categoria
-import br.com.alexf.aluraflix.ui.model.Video
-import br.com.alexf.aluraflix.ui.model.toVideoEntity
+import br.com.alexf.aluraflix.model.Categoria
+import br.com.alexf.aluraflix.model.Video
+import br.com.alexf.aluraflix.model.toVideoEntity
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 

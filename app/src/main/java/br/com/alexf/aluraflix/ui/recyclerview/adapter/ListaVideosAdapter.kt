@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.VideosPorCategoriaBinding
 import br.com.alexf.aluraflix.model.Categoria
 import br.com.alexf.aluraflix.model.Video
@@ -12,7 +13,8 @@ import br.com.alexf.aluraflix.model.Video
 class ListaVideosAdapter(
     private val context: Context,
     private val categoria: Categoria = Categoria.SEM_CATEGORIA,
-    videos: List<Video> = emptyList()
+    videos: List<Video> = emptyList(),
+    var videoClicado: (videoId: String) -> Unit = {}
 ) : RecyclerView.Adapter<ListaVideosAdapter.ViewHolder>() {
 
     private val videos = videos.toMutableList()
@@ -33,7 +35,11 @@ class ListaVideosAdapter(
                 campoTituloCategoria.background.setTint(ContextCompat.getColor(context, it))
             }
 
-            binding.videos.adapter = ListVideosHorizontal(context, videos)
+            binding.videos.adapter = ListVideosHorizontal(
+                context,
+                videos,
+                videoClicado
+            )
         }
 
 
@@ -62,11 +68,8 @@ class ListaVideosAdapter(
 
     override fun getItemCount() = 1
 
-    fun atualiza(videoIds: List<Video>) {
-        notifyItemRangeRemoved(0, videos.size)
-        videos.clear()
-        videos.addAll(videoIds)
-        notifyItemRangeInserted(0, videos.size)
+    override fun getItemViewType(position: Int): Int {
+        return R.layout.activity_lista_videos
     }
 
 }

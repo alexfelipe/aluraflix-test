@@ -5,20 +5,29 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.recyclerview.widget.RecyclerView
+import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.CabecalhoBinding
 import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
 
 class CabecalhoAdapter(
-    private val context: Context
+    private val context: Context,
+    private val videoId: String,
+    var botaoAssistirClicado: (videoId: String) -> Unit = {}
 ) : RecyclerView.Adapter<CabecalhoAdapter.ViewHolder>() {
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: CabecalhoBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.cabecalhoBotaoAssitir.setOnClickListener {
+                botaoAssistirClicado(videoId)
+            }
+        }
+
         fun vincula() {
             binding.cabecalhoTitulo.text = LoremIpsum(10).values.first()
-            binding.cabecalhoImagem.carregaImagemDoYoutube("pcnfjJG3jY4")
+            binding.cabecalhoImagem.carregaImagemDoYoutube(videoId)
         }
 
     }
@@ -45,5 +54,9 @@ class CabecalhoAdapter(
     }
 
     override fun getItemCount() = 1
+
+    override fun getItemViewType(position: Int): Int {
+        return R.layout.cabecalho
+    }
 
 }

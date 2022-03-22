@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id "com.google.devtools.ksp" version "1.6.10-1.0.2"
 }
 
 android {
@@ -16,16 +17,22 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas".toString())
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -33,14 +40,20 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+
 }
 
 dependencies {
+    def roomVersion = "2.4.2"
 
     implementation("io.coil-kt:coil:2.0.0-rc02")
 
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+    ksp "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

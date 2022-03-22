@@ -4,10 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.ConcatAdapter
 import br.com.alexf.aluraflix.dao.VideoDao
+import br.com.alexf.aluraflix.database.AppDatabase
 import br.com.alexf.aluraflix.databinding.ActivityListaVideosBinding
 import br.com.alexf.aluraflix.model.Categoria
 import br.com.alexf.aluraflix.model.Video
@@ -15,7 +14,7 @@ import br.com.alexf.aluraflix.ui.recyclerview.adapter.CabecalhoAdapter
 import br.com.alexf.aluraflix.ui.recyclerview.adapter.ListaVideosAdapter
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ListaVideosActivity : AppCompatActivity() {
@@ -24,8 +23,9 @@ class ListaVideosActivity : AppCompatActivity() {
         ActivityListaVideosBinding.inflate(layoutInflater)
     }
     private val dao by lazy {
-        VideoDao()
+        AppDatabase.instancia(this).videoDao()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,21 +49,40 @@ class ListaVideosActivity : AppCompatActivity() {
     }
 
     private fun configuraRecyclerView() {
-        val videos = dao.buscaTodos
-        val videosPorCategoria =
-            videos.groupBy { it.categoria }
-                .mapValues {
-                    ListaVideosAdapter(
-                        this@ListaVideosActivity,
-                        it.key,
-                        it.value
-                    )
+        MainScope().launch {
+            dao.buscaTodos().map {
+                it.map { entity ->
+                    Video(entity.id, entity.categoria)
                 }
-        val adapter = ConcatAdapter(
-            CabecalhoAdapter(this@ListaVideosActivity),
-            *videosPorCategoria.values.toTypedArray()
-        )
-        binding.activityListaVideosRecyclerview.adapter = adapter
+            }.collect { videos ->
+                val videosPorCategoria =
+                    videos.groupBy { it.categoria }
+                        .toSortedMap()
+                        .mapValues {
+                            ListaVideosAdapter(
+                                this@ListaVideosActivity,
+                                it.key,
+                                it.value,
+                                videoClicado = { videoId ->
+                                    abreVideo(videoId = videoId)
+                                }
+                            )
+                        }
+                val adapter = ConcatAdapter(
+                    CabecalhoAdapter(
+                        this@ListaVideosActivity,
+                        videoId = "pcnfjJG3jY4",
+                        botaoAssistirClicado = {
+                            abreVideo(it)
+                        }
+                    ),
+                )
+                videosPorCategoria.forEach {
+                    adapter.addAdapter(it.value)
+                }
+                binding.activityListaVideosRecyclerview.adapter = adapter
+            }
+        }
     }
 
     private fun abreVideo(videoId: String) {

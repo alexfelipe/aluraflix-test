@@ -11,7 +11,8 @@ import br.com.alexf.aluraflix.database.entity.paraVideo
 import br.com.alexf.aluraflix.databinding.ActivityMainBinding
 import br.com.alexf.aluraflix.model.Video
 import br.com.alexf.aluraflix.ui.recyclerview.adapter.CabecalhoAdapter
-import br.com.alexf.aluraflix.ui.recyclerview.adapter.ListaVideosAdapter
+import br.com.alexf.aluraflix.ui.recyclerview.adapter.CategoriaVideoAdapter
+import br.com.alexf.aluraflix.ui.recyclerview.adapter.VideosHorizontalAdapter
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -61,40 +62,39 @@ class MainActivity : AppCompatActivity() {
 
     private fun configuraAdapters(videos: List<Video>) {
         val adapter = ConcatAdapter()
-        val cabecalhoAdapter = criaCabecalhoAdapter("pcnfjJG3jY4")
+        val cabecalhoAdapter = CabecalhoAdapter(
+            this,
+            videoId = "pcnfjJG3jY4",
+            botaoAssistirClicado = {
+                abreVideoNoYoutube(it)
+            })
         adapter.addAdapter(cabecalhoAdapter)
-        val videosPorCategoriaAdapter = criaVideosPorCategoriaAdapter(videos)
-        videosPorCategoriaAdapter.forEach {
-            adapter.addAdapter(it.value)
+
+        val videosMapeadosPorCategoria = videos.groupBy { it.categoria }
+        videosMapeadosPorCategoria.forEach {
+            val categoria = it.key
+            val videosDaCategoria = it.value
+            val categoriaAdapter = CategoriaVideoAdapter(
+                this,
+                categoria
+            )
+            adapter.addAdapter(categoriaAdapter)
+            val videosHorizontalAdapter = VideosHorizontalAdapter(
+                this,
+                videosDaCategoria,
+                videoClicado = { videoId ->
+                    abreVideoNoYoutube(videoId)
+                }
+            )
+            adapter.addAdapter(videosHorizontalAdapter)
         }
         binding.activityListaVideosRecyclerview.adapter = adapter
     }
 
     private fun criaCabecalhoAdapter(
         videoId: String
-    ) = CabecalhoAdapter(
-        this,
-        videoId = videoId,
-        botaoAssistirClicado = {
-            abreVideoNoYoutube(it)
-        },
+    ) =
     )
-
-    private fun criaVideosPorCategoriaAdapter(
-        videos: List<Video>
-    ) = videos.groupBy { it.categoria }
-        .mapValues {
-            val categoria = it.key
-            val videosDaCategoria = it.value
-            ListaVideosAdapter(
-                this,
-                categoria,
-                videosDaCategoria,
-                videoClicado = { videoId ->
-                    abreVideoNoYoutube(videoId = videoId)
-                }
-            )
-        }
 
     private fun abreVideoNoYoutube(videoId: String) {
         Intent(

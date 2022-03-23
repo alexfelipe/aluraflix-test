@@ -9,31 +9,30 @@ import br.com.alexf.aluraflix.databinding.VideoItemBinding
 import br.com.alexf.aluraflix.extension.carregaImagemDoYoutube
 import br.com.alexf.aluraflix.model.Video
 
-class ListaVideosHorizontalAdapter(
+class VideosAdapter(
     private val context: Context,
     videos: List<Video>,
-    var videoClicado: (videoId: String) -> Unit
-) : RecyclerView.Adapter<ListaVideosHorizontalAdapter.ViewHolder>() {
+    var videoClicado: (videoId: String) -> Unit = {},
+) : RecyclerView.Adapter<VideosAdapter.ViewHolder>() {
 
     private val videos = videos.toMutableList()
 
-    inner class ViewHolder(private val binding: VideoItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(
+        private val binding: VideoItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private var videoId: String? = null
 
         init {
             binding.card.setOnClickListener {
-                videoId?.let {
-                    videoClicado(it)
+                videoId?.let { id ->
+                    videoClicado(id)
                 }
             }
         }
 
         fun vincula(video: Video) {
-            videoId = video.id
-            binding.videoItemImagem
-                .carregaImagemDoYoutube(video.id)
+            binding.videoItemImagem.carregaImagemDoYoutube(video.id)
         }
 
     }
@@ -41,11 +40,10 @@ class ListaVideosHorizontalAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewHolder {
-        val inflater = LayoutInflater.from(context)
+    ): VideosAdapter.ViewHolder {
         return ViewHolder(
             VideoItemBinding.inflate(
-                inflater,
+                LayoutInflater.from(context),
                 parent,
                 false
             )
@@ -53,15 +51,15 @@ class ListaVideosHorizontalAdapter(
     }
 
     override fun onBindViewHolder(
-        holder: ViewHolder,
+        holder: VideosAdapter.ViewHolder,
         position: Int
     ) {
         holder.vincula(videos[position])
     }
 
-    override fun getItemCount(): Int = videos.size
+    override fun getItemCount() = videos.size
 
-    override fun getItemViewType(position: Int): Int =
-        R.layout.video_item
+    override fun getItemViewType(position: Int):
+            Int = R.layout.video_item
 
 }

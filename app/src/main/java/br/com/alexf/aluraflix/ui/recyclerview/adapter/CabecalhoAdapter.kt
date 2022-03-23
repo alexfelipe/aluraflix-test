@@ -26,7 +26,7 @@ class CabecalhoAdapter(
         }
 
         fun vincula() {
-            binding.cabecalhoTitulo.text = LoremIpsum(10).values.first()
+            binding.cabecalhoTitulo.text = "Aprenda 5 métodos incríveis das listas no Dart"
             binding.cabecalhoImagem.carregaImagemDoYoutube(videoId)
         }
 

@@ -3,24 +3,37 @@ package br.com.alexf.aluraflix.ui.recyclerview.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alexf.aluraflix.R
 import br.com.alexf.aluraflix.databinding.CategoriaVideoBinding
 import br.com.alexf.aluraflix.model.Categoria
 
-class CategoriaHeaderAdapter(
+class CategoriaVideoAdapter(
     private val context: Context,
-    private val categoria: Categoria,
-) : RecyclerView.Adapter<CategoriaHeaderAdapter.ViewHolder>() {
+    private val categoria: Categoria
+) : RecyclerView.Adapter<CategoriaVideoAdapter.ViewHolder>() {
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: CategoriaVideoBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun vincula(categoria: Categoria) {
-            binding.categoriaVideoTexto.text = categoria.texto
+        fun vincula() {
+            val campoTituloCategoria = binding.categoriaVideoTexto
+            campoTituloCategoria.text = categoria.texto
+            campoTituloCategoria.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    categoria.corTexto
+                )
+            )
+            campoTituloCategoria.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    categoria.corFundo
+                )
+            )
         }
-
     }
 
     override fun onCreateViewHolder(
@@ -41,11 +54,12 @@ class CategoriaHeaderAdapter(
         holder: ViewHolder,
         position: Int
     ) {
-        holder.vincula(categoria)
+        holder.vincula()
     }
 
     override fun getItemCount() = 1
 
     override fun getItemViewType(position: Int): Int =
         R.layout.categoria_video
+
 }

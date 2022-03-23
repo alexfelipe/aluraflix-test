@@ -27,5 +27,15 @@ enum class Categoria(
         "Data Science",
         R.color.white,
         R.color.categoria_data_science
+    ),
+    ALEX(
+        "Alex",
+        R.color.white,
+        R.color.categoria_data_science
+    ),
+    KAKO(
+        "Kako",
+        R.color.white,
+        R.color.categoria_data_science
     )
 }

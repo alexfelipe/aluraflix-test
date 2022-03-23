@@ -91,11 +91,6 @@ class MainActivity : AppCompatActivity() {
         binding.activityListaVideosRecyclerview.adapter = adapter
     }
 
-    private fun criaCabecalhoAdapter(
-        videoId: String
-    ) =
-    )
-
     private fun abreVideoNoYoutube(videoId: String) {
         Intent(
             Intent.ACTION_VIEW,

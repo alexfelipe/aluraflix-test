@@ -69,7 +69,6 @@ class MainActivity : AppCompatActivity() {
                 abreVideoNoYoutube(it)
             })
         adapter.addAdapter(cabecalhoAdapter)
-
         val videosMapeadosPorCategoria = videos.groupBy { it.categoria }
         videosMapeadosPorCategoria.forEach {
             val categoria = it.key

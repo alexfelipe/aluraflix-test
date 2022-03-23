@@ -32,6 +32,7 @@ class VideosAdapter(
         }
 
         fun vincula(video: Video) {
+            videoId = video.id
             binding.videoItemImagem.carregaImagemDoYoutube(video.id)
         }
 

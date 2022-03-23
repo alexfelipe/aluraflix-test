@@ -11,7 +11,7 @@ import br.com.alexf.aluraflix.model.Video
 class VideosHorizontalAdapter(
     private val context: Context,
     videos: List<Video>,
-    var videoClicado: (videoId: String) -> Unit
+    var videoClicado: (videoId: String) -> Unit = {}
 ) : RecyclerView.Adapter<VideosHorizontalAdapter.ViewHolder>() {
 
     private val videos = videos.toMutableList()
